@@ -30,14 +30,7 @@ namespace GoogleTranslateHelper.Extensions
 
             return stringValueAttributes.Length > 0 ? stringValueAttributes[0].StringValue : null;
         }
-
-        /// <summary> Добавляет в заголовок случайный user-agent из списка </summary>
-        /// <param name="httpClient"></param>
-        public static void AddUserAgentToHeader(this HttpClient httpClient)
-        {
-            httpClient.DefaultRequestHeaders.Add("User-Agent", UserAgentCarousel.GetUserAgent());
-        }
-
+        
         /// <summary> Возвращает enum по коду языка </summary>
         /// <param name="langCode">Код языка ISO 639-1</param>
         public static Languages? GetLanguages(string langCode)
