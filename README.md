@@ -4,8 +4,11 @@ Library for simple translation using google
 ### # Client code
 
 ````csharp
-var translator = GtCore.Get;
+Console.WriteLine(GtCore.Get().Translate("Hello, World!", "ru"));
 
-var readLine = Console.ReadLine();
-var result = translator.Translate(readLine, "de");
+Console.WriteLine(GtCore.Get().SetContent("Hello, World!").To(Languages.German));
+
+Console.WriteLine(GtCore.Get().SetContent("Hello, World!").To("tr"));
+
+Console.WriteLine(GtCore.Get().SetContent("Hello, World!").To("hr"));
 ````
