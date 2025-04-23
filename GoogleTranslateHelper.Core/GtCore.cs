@@ -19,6 +19,8 @@ namespace GoogleTranslateHelper
         /// <summary> Закрываем конструктор </summary>
         private GtCore() => _httpClient = new HttpClient();
 
+        private string _tempContent;
+
         public static GtCore Get() => Instance.Value;
 
         /// <summary> Перевести текст </summary>
@@ -26,6 +28,35 @@ namespace GoogleTranslateHelper
         /// <param name="LanguageCode">Код языка ISO 639-1</param>
         public string Translate(string inputText, string LanguageCode) =>
             Translate(inputText, LanguageCode, "");
+
+        /// <summary> Устанавливает временный контет </summary>
+        /// <param name="inputText">входящий текст</param>
+        public GtCore SetContent(string inputText)
+        {
+            _tempContent = inputText;
+
+            return this;
+        }
+
+        /// <summary> Переводит установленный контент </summary>
+        /// <param name="languages">Язык из библиотеки</param>
+        /// <returns>Переведенная строка</returns>
+        public string To(Languages languages)
+        {
+            if (string.IsNullOrEmpty(_tempContent) || string.IsNullOrWhiteSpace(_tempContent)) return string.Empty;
+
+            return Translate(_tempContent, languages.GetStringValue());
+        }
+
+        /// <summary> Переводит установленный контент </summary>
+        /// <param name="languages">Код языка ISO 3166-1 alpha-2 </param>
+        /// <returns>Переведенная строка</returns>
+        public string To(string language)
+        {
+            if (string.IsNullOrEmpty(_tempContent) || string.IsNullOrWhiteSpace(_tempContent)) return string.Empty;
+
+            return Translate(_tempContent, language);
+        }
 
         //---------------------------------------------------------------------------
         #region private methods
