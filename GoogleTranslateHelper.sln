@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleTranslateHelper.Core", "GoogleTranslateHelper.Core\GoogleTranslateHelper.Core.csproj", "{1ACFC299-4668-0F38-EBEA-4658982F42EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleTranslateHelper.ConsoleApp", "GoogleTranslateHelper.ConsoleApp\GoogleTranslateHelper.ConsoleApp.csproj", "{79D8F92F-3D8C-40CB-9C83-496F77CF2755}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1ACFC299-4668-0F38-EBEA-4658982F42EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ACFC299-4668-0F38-EBEA-4658982F42EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ACFC299-4668-0F38-EBEA-4658982F42EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ACFC299-4668-0F38-EBEA-4658982F42EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D8F92F-3D8C-40CB-9C83-496F77CF2755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D8F92F-3D8C-40CB-9C83-496F77CF2755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D8F92F-3D8C-40CB-9C83-496F77CF2755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D8F92F-3D8C-40CB-9C83-496F77CF2755}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96E4B387-40B5-4D3E-85FD-D773743BA298}
+	EndGlobalSection
+EndGlobal
