@@ -10,14 +10,11 @@ namespace GoogleTranslateHelper
     /// <summary> Ядро библиотеки </summary>
     public class GtCore
     {
-        /// <summary> Клиент для работы с Google Translator </summary>
-        private readonly HttpClient _httpClient;
-
         /// <summary> Возвращает синглтон </summary>
         private static readonly Lazy<GtCore> Instance = new Lazy<GtCore>(() => new GtCore());
 
         /// <summary> Закрываем конструктор </summary>
-        private GtCore() => _httpClient = new HttpClient();
+        private GtCore() { }
 
         private string _tempContent;
 
@@ -75,7 +72,11 @@ namespace GoogleTranslateHelper
         /// <param name="to">На какой язык</param>
         private string Translate(string inputText, Languages to, Languages? from = null)
         {
-            _httpClient.AddUserAgentToHeader();
+            if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
+
+            using var httpClient = new HttpClient();
+
+            httpClient.AddUserAgentToHeader();
 
             var fromLang = from == null ? "auto" : from.GetStringValue();
 
@@ -83,7 +84,7 @@ namespace GoogleTranslateHelper
                                      $"sl={fromLang}&tl={to.GetStringValue()}" +
                                      $"&ie=UTF-8&prev=_m&q={inputText}";
 
-            var response = _httpClient.GetAsync(urlForTranslate).Result;
+            var response = httpClient.GetAsync(urlForTranslate).Result;
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception($"Translate fault with http status code {response.StatusCode}");
 
@@ -98,7 +99,11 @@ namespace GoogleTranslateHelper
         /// <exception cref="Exception"></exception>
         private string Translate(string inputText, string languageTo, string languageFrom = "")
         {
-            _httpClient.AddUserAgentToHeader();
+            if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
+
+            using var httpClient = new HttpClient();
+
+            httpClient.AddUserAgentToHeader();
 
             if (string.IsNullOrEmpty(languageFrom))
                 languageFrom = "auto";
@@ -107,7 +112,7 @@ namespace GoogleTranslateHelper
                                      $"sl={languageFrom}&tl={languageTo}" +
                                      $"&ie=UTF-8&prev=_m&q={inputText}";
             
-            var response = _httpClient.GetAsync(urlForTranslate).Result;
+            var response = httpClient.GetAsync(urlForTranslate).Result;
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception($"Translate fault with http status code {response.StatusCode}");
 

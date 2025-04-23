@@ -8,8 +8,8 @@
         {
             if (httpClient.DefaultRequestHeaders.Contains("User-Agent"))
                 httpClient.DefaultRequestHeaders.Remove("User-Agent");
-                
-            httpClient.DefaultRequestHeaders.Add("User-Agent", UserAgentCarousel.GetUserAgent());
+
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", UserAgentCarousel.GetUserAgent());
         }
     }
 }
