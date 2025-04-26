@@ -10,15 +10,11 @@ namespace GoogleTranslateHelper
     /// <summary> Ядро библиотеки </summary>
     public class GtCore
     {
-        /// <summary> Возвращает синглтон </summary>
-        private static readonly Lazy<GtCore> Instance = new Lazy<GtCore>(() => new GtCore());
-
-        /// <summary> Закрываем конструктор </summary>
-        private GtCore() { }
+        private readonly HttpClient httpClient;
 
         private string _tempContent;
 
-        public static GtCore Get() => Instance.Value;
+        public GtCore(HttpClient httpClient) => this.httpClient = httpClient;
 
         /// <summary> Перевести текст </summary>
         /// <param name="inputText">Исходный текст</param>
@@ -74,8 +70,6 @@ namespace GoogleTranslateHelper
         {
             if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
 
-            using var httpClient = new HttpClient();
-
             httpClient.AddUserAgentToHeader();
 
             var fromLang = from == null ? "auto" : from.GetStringValue();
@@ -100,8 +94,6 @@ namespace GoogleTranslateHelper
         private string Translate(string inputText, string languageTo, string languageFrom = "")
         {
             if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
-
-            using var httpClient = new HttpClient();
 
             httpClient.AddUserAgentToHeader();
 
