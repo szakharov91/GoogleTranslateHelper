@@ -1,0 +1,16 @@
+stages:
+  - build
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+build-and-lint:
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+  stage: build
+  script:
+    - dotnet restore
+    - dotnet build --no-restore --configuration Release
+  rules:
+    # запускать на ветках MR и при пуше в защищённые ветки
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == "main"
