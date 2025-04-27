@@ -1,26 +1,27 @@
 ﻿using GoogleTranslateHelper.Core;
 
-namespace GoogleTranslateHelper.ConsoleApp
+namespace GoogleTranslateHelper.ConsoleApp;
+
+internal sealed class Program
 {
-    internal sealed class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var googleTranslateCore = new GtCore(new HttpClient());
+        using var httpClient = new HttpClient();
 
-            Console.WriteLine(googleTranslateCore.Translate("Hello, World!", "ru"));
-                              
-            Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To(Languages.German));
-                              
-            Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To("tr"));
-                              
-            Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To("hr"));
-                              
-            Console.WriteLine(googleTranslateCore.Translate("На краю дороги стоял дуб. " +
-                "Вероятно, в десять раз старше берёз, составлявших лес, " +
-                "он был в десять раз толще и в два раза выше каждой берёзы.", "fr"));
+        var googleTranslateCore = new GtCore(httpClient);
 
-            Console.ReadLine();
-        }
+        Console.WriteLine(googleTranslateCore.Translate("Hello, World!", "ru"));
+
+        Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To(Languages.German));
+
+        Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To("tr"));
+
+        Console.WriteLine(googleTranslateCore.SetContent("Hello, World!").To("hr"));
+
+        Console.WriteLine(googleTranslateCore.Translate("На краю дороги стоял дуб. " +
+            "Вероятно, в десять раз старше берёз, составлявших лес, " +
+            "он был в десять раз толще и в два раза выше каждой берёзы.", "fr"));
+
+        Console.ReadLine();
     }
 }
