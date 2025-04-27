@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GoogleTranslateHelper.Core.Extensions.Enums;
 
-namespace GoogleTranslateHelper
+namespace GoogleTranslateHelper.Core;
+
+/// <summary> Список языков. </summary>
+public enum Languages
 {
-    /// <summary> Список языков </summary>
-    public enum Languages
-    {
-        [StringValue("en")]
-        English,
+    /// <summary> english </summary>
+    [StringValue("en")]
+    English,
 
-        [StringValue("ru")]
-        Russian,
+    /// <summary> russian </summary>
+    [StringValue("ru")]
+    Russian,
 
-        [StringValue("de")]
-        German
-    }
+    /// <summary> german </summary>
+    [StringValue("de")]
+    German,
 }

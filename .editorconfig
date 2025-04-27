@@ -341,6 +341,9 @@ dotnet_diagnostic.IDE0046.severity = none
 # IDE0290: Use primary constructor
 dotnet_diagnostic.IDE0290.severity = none
 
+# IDE0161: file_scoped:warning
+dotnet_diagnostic.IDE0161.severity = warning
+
 # SonarAnalyzer.CSharp rules
 
 # S112: General or reserved exceptions should never be thrown
@@ -363,3 +366,15 @@ dotnet_diagnostic.S4136.severity = none
 
 # S6605: Collection-specific "Exists" method should be used instead of the "Any" extension
 dotnet_diagnostic.S6605.severity = none
+
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = none
+
+# SA1633: The file header is missing or not located at the top of the file. 
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
+
+# SA1642: Constructor summary documentation should begin with standard text
+dotnet_diagnostic.SA1642.severity = none

@@ -1,6 +1,8 @@
-﻿namespace GoogleTranslateHelper.ConsoleApp
+﻿using GoogleTranslateHelper.Core;
+
+namespace GoogleTranslateHelper.ConsoleApp
 {
-    internal class Program
+    internal sealed class Program
     {
         static void Main(string[] args)
         {
