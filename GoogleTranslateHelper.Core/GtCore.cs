@@ -20,7 +20,7 @@ public class GtCore
     /// <returns>Текущий инстанс объекта, для fluent синтаксиса</returns>
     public GtCore SetContent(string inputText)
     {
-        this.tempContent = inputText;
+        tempContent = inputText;
 
         return this;
     }
@@ -30,12 +30,12 @@ public class GtCore
     /// <returns>Переведенная строка</returns>
     public string To(Languages languages)
     {
-        if (string.IsNullOrEmpty(this.tempContent) || string.IsNullOrWhiteSpace(this.tempContent))
+        if (string.IsNullOrEmpty(tempContent) || string.IsNullOrWhiteSpace(tempContent))
         {
             return string.Empty;
         }
 
-        return this.Translate(this.tempContent, languages.GetStringValue());
+        return Translate(tempContent, languages.GetStringValue());
     }
 
     /// <summary> Переводит установленный контент </summary>
@@ -43,12 +43,12 @@ public class GtCore
     /// <returns>Переведенная строка</returns>
     public string To(string language)
     {
-        if (string.IsNullOrEmpty(this.tempContent) || string.IsNullOrWhiteSpace(this.tempContent))
+        if (string.IsNullOrEmpty(tempContent) || string.IsNullOrWhiteSpace(tempContent))
         {
             return string.Empty;
         }
 
-        return this.Translate(this.tempContent, language);
+        return Translate(tempContent, language);
     }
 
     #region private methods
@@ -57,7 +57,7 @@ public class GtCore
     /// <param name="htmlPageResult">html страница переводчика</param>
     private string ParseTranslatedText(string htmlPageResult)
     {
-        var resultContainer = Regex.Matches(htmlPageResult, @"div[^""]*?""result-container"".*?>(.+?)</div>");
+        MatchCollection resultContainer = Regex.Matches(htmlPageResult, @"div[^""]*?""result-container"".*?>(.+?)</div>");
         return resultContainer.Count > 0 ? resultContainer[0].Groups[1].Value : null;
     }
 
@@ -69,22 +69,29 @@ public class GtCore
     /// <exception cref="Exception"></exception>
     public string Translate(string inputText, string languageTo, string languageFrom = "")
     {
-        if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
+        if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText))
+        {
+            return string.Empty;
+        }
 
         httpClient.AddUserAgentToHeader();
 
         if (string.IsNullOrEmpty(languageFrom))
+        {
             languageFrom = "auto";
+        }
 
         string urlForTranslate = $"https://translate.google.com/m?" +
                                  $"sl={languageFrom}&tl={languageTo}" +
                                  $"&ie=UTF-8&prev=_m&q={inputText}";
 
-        var response = httpClient.GetAsync(urlForTranslate).Result;
+        HttpResponseMessage? response = httpClient.GetAsync(urlForTranslate).GetAwaiter().GetResult();
         if (response.StatusCode != System.Net.HttpStatusCode.OK)
+        {
             throw new Exception($"Translate fault with http status code {response.StatusCode}");
+        }
 
-        return ParseTranslatedText(response.Content.ReadAsStringAsync().Result);
+        return ParseTranslatedText(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
     }
     #endregion
 

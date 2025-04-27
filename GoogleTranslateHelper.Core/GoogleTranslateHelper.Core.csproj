@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Authors>kraldraav@gmail.com</Authors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Authors>kraldraav@gmail.com</Authors>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
 
 </Project>
