@@ -1,16 +1,36 @@
-stages:
-  - build
+name: .NET Build & Lint
 
-variables:
-  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+# Триггеры: пуши и PR в ветки main и develop
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
-build-and-lint:
-  image: mcr.microsoft.com/dotnet/sdk:6.0
-  stage: build
-  script:
-    - dotnet restore
-    - dotnet build --no-restore --configuration Release
-  rules:
-    # запускать на ветках MR и при пуше в защищённые ветки
-    - if: $CI_MERGE_REQUEST_ID
-    - if: $CI_COMMIT_BRANCH == "main"
+jobs:
+  build-and-lint:
+    name: Build and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Забираем код
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2) Устанавливаем .NET SDK 8.0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # 3) Восстанавливаем пакеты
+      - name: Restore
+        run: dotnet restore
+
+      # 4) Собираем и запускаем анализаторы (TreatWarningsAsErrors=true в ваших csproj)
+      - name: Build & Lint
+        run: dotnet build --configuration Release --no-restore
