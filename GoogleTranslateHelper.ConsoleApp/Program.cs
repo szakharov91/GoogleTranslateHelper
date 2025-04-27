@@ -6,7 +6,9 @@ internal sealed class Program
 {
     static void Main(string[] args)
     {
-        var googleTranslateCore = new GtCore(new HttpClient());
+        using var httpClient = new HttpClient();
+
+        var googleTranslateCore = new GtCore(httpClient);
 
         Console.WriteLine(googleTranslateCore.Translate("Hello, World!", "ru"));
 
