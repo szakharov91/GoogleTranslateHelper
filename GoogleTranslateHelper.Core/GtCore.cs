@@ -67,7 +67,7 @@ public class GtCore
     /// <param name="languageFrom">С какого языка</param>
     /// <returns>Переведенный текст</returns>
     /// <exception cref="Exception"></exception>
-    private string Translate(string inputText, string languageTo, string languageFrom = "")
+    public string Translate(string inputText, string languageTo, string languageFrom = "")
     {
         if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText)) return string.Empty;
 

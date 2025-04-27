@@ -5,35 +5,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoogleTranslateHelper.Tests
+namespace GoogleTranslateHelper.Tests;
+
+public class HttpClientExtensionsTests
 {
-    public class HttpClientExtensionsTests
+    [Fact]
+    public void AddUserAgentToHeader_ShouldAddUserAgentHeader()
     {
-        [Fact]
-        public void AddUserAgentToHeader_ShouldAddUserAgentHeader()
-        {
-            var client = new HttpClient();
-            client.AddUserAgentToHeader();
+        using var client = new HttpClient();
+        client.AddUserAgentToHeader();
 
-            Assert.True(client.DefaultRequestHeaders.Contains("User-Agent"));
-            var headerValues = client.DefaultRequestHeaders.GetValues("User-Agent").ToList();
-            string completeUserAgent = string.Join(" ", headerValues);
-            
-            Assert.False(string.IsNullOrWhiteSpace(completeUserAgent));
-        }
+        Assert.True(client.DefaultRequestHeaders.Contains("User-Agent"));
+        var headerValues = client.DefaultRequestHeaders.GetValues("User-Agent").ToList();
+        string completeUserAgent = string.Join(" ", headerValues);
 
-        [Fact]
-        public void AddUserAgentToHeader_ShouldReplaceExistingHeader()
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "OldValue");
-            client.AddUserAgentToHeader();
+        Assert.False(string.IsNullOrWhiteSpace(completeUserAgent));
+    }
 
-            var headerValues = client.DefaultRequestHeaders.GetValues("User-Agent").ToList();
-            string completeUserAgent = string.Join(" ", headerValues);
+    [Fact]
+    public void AddUserAgentToHeader_ShouldReplaceExistingHeader()
+    {
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("User-Agent", "OldValue");
+        client.AddUserAgentToHeader();
 
-            Assert.NotEqual("OldValue", completeUserAgent);
-            Assert.False(string.IsNullOrWhiteSpace(completeUserAgent));
-        }
+        var headerValues = client.DefaultRequestHeaders.GetValues("User-Agent").ToList();
+        string completeUserAgent = string.Join(" ", headerValues);
+
+        Assert.NotEqual("OldValue", completeUserAgent);
+        Assert.False(string.IsNullOrWhiteSpace(completeUserAgent));
     }
 }
