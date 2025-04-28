@@ -51,14 +51,17 @@ public class GtCore
         return Translate(tempContent, language);
     }
 
-    #region private methods
-
-    /// <summary> Разбирает DIV с результатом перевода и возвращает текстовое значение </summary>
-    /// <param name="htmlPageResult">html страница переводчика</param>
-    private string ParseTranslatedText(string htmlPageResult)
+    /// <summary> Переводит установленный контент </summary>
+    /// <param name="language">Код языка ISO 3166-1 alpha-2 </param>
+    /// <returns>Переведенная строка</returns>
+    public async Task<string> ToAsync(string language)
     {
-        MatchCollection resultContainer = Regex.Matches(htmlPageResult, @"div[^""]*?""result-container"".*?>(.+?)</div>");
-        return resultContainer.Count > 0 ? resultContainer[0].Groups[1].Value : null;
+        if (string.IsNullOrEmpty(tempContent) || string.IsNullOrWhiteSpace(tempContent))
+        {
+            return string.Empty;
+        }
+
+        return await TranslateAsync(tempContent, language);
     }
 
     /// <summary> Перевести текст </summary>
@@ -93,6 +96,51 @@ public class GtCore
 
         return ParseTranslatedText(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
     }
+
+    /// <summary> Перевести текст </summary>
+    /// <param name="inputText">Исходных текст</param>
+    /// <param name="languageTo">На какой язык</param>
+    /// <param name="languageFrom">С какого языка</param>
+    /// <returns>Переведенный текст</returns>
+    /// <exception cref="Exception"></exception>
+    public async Task<string> TranslateAsync(string inputText, string languageTo, string languageFrom = "")
+    {
+        if (string.IsNullOrEmpty(inputText) || string.IsNullOrWhiteSpace(inputText))
+        {
+            return string.Empty;
+        }
+
+        httpClient.AddUserAgentToHeader();
+
+        if (string.IsNullOrEmpty(languageFrom))
+        {
+            languageFrom = "auto";
+        }
+
+        string urlForTranslate = $"https://translate.google.com/m?" +
+                                 $"sl={languageFrom}&tl={languageTo}" +
+                                 $"&ie=UTF-8&prev=_m&q={inputText}";
+
+        HttpResponseMessage? response = await httpClient.GetAsync(urlForTranslate);
+        if (response.StatusCode != System.Net.HttpStatusCode.OK)
+        {
+            throw new Exception($"Translate fault with http status code {response.StatusCode}");
+        }
+
+        string responseText = await response.Content.ReadAsStringAsync();
+
+        return ParseTranslatedText(responseText);
+    }
+
+    #region private methods
+
+    /// <summary> Разбирает DIV с результатом перевода и возвращает текстовое значение </summary>
+    /// <param name="htmlPageResult">html страница переводчика</param>
+    private string ParseTranslatedText(string htmlPageResult)
+    {
+        MatchCollection resultContainer = Regex.Matches(htmlPageResult, @"div[^""]*?""result-container"".*?>(.+?)</div>");
+        return resultContainer.Count > 0 ? resultContainer[0].Groups[1].Value : null;
+    }    
     #endregion
 
 }
